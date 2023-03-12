@@ -21,7 +21,7 @@ describe('Treinamento API - FakeRestAPI - Books', () => {
     //cy.api('[Method (GET (Acesso sem enviar informações para a API), POST (Enviar um body para a API), PUT (Atualizar uma info do body na API), DELETE (Deletar uma informação do body na API) )], URL)
 
 
-    //Validando o body utilizando o json gerado pelo response na pasta fixture
+    //Validando o body utilizando o .json gerado pelo response na pasta fixture
     cy.writeFile('cypress/fixtures/swagger_books/books.json', response.body)
     cy.fixture('swagger_books/books').then((books) =>{
       expect(books[1].pageCount).to.equal(200)
