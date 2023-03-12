@@ -46,11 +46,11 @@ describe('Teste básico de authorization com bearer token', () => {
     it('Validar body  do response de user', () => {
         GETuser.my_user('me').then((response) =>{
             console.log(response)
-            expect(response.body.alias).to.eq('Rafael Miguel', 'Nome e sobrenome')
-            expect(response.body.email).to.eq('rafaelmiguel11@hotmail.com', 'Email')
+            expect(response.body.alias).to.eq('Oliver Queen', 'Nome e sobrenome')
+            expect(response.body.email).to.eq('temiyo9619@gpipes.com', 'Email')
             expect(response.body.language).to.eq('en', 'Idioma')
-            expect(response.body.user_id).to.eq('01GV8WV2CT9QMFKJPSV7G0MXXX', 'ID do usuário')
-            expect(response.body.tracking_id).to.eq(23472226, 'Tracking do usuário')
+            expect(response.body.user_id).to.eq('01GVBPDQEYK0988FFA6MJSQVVA', 'ID do usuário')
+            expect(response.body.tracking_id).to.eq(23481190, 'Tracking do usuário')
             
         })
     });
@@ -76,21 +76,21 @@ describe('Teste básico de authorization com bearer token', () => {
         })
 
     it('Acessar formulario', () => {
-        GETuser.my_user('forms/MaY9BGOu').then((response) =>{
+        GETuser.my_user('forms/xwqk8Jij').then((response) =>{
             expect(response.status).to.eq(200, 'statusCode')
         })
         
-        GETuser.my_user('forms/MaY9BGOu').its('body').then((response) =>{
+        GETuser.my_user('forms/xwqk8Jij').its('body').then((response) =>{
 
             expect(response).to.not.be.empty
             expect(response.title).to.eq('Test', 'Título')
             expect(response.fields[0].title).to.eq('Qual é o seu nome?', 'Pergunta')
-            expect(response.fields[1].title).to.eq('É noixxx, {{field:01GV8WY0XF7EQ81DM5HS8W3M68}}, como estás hoje?', 'Pergunta')
+            expect(response.fields[1].title).to.eq('É noixxx, {{field:01GVBPFZFNXDT5BR8R0ZS146CE}}, como estás hoje?', 'Pergunta')
             expect(response.fields[1].properties.choices[0].label).to.eq('Supimpa!', 'Opção')
             expect(response.fields[1].properties.choices[1].label).to.eq('Ai cara... :/', 'Opção')
             expect(response.fields[1].type).to.eq('multiple_choice', 'Pergunta de múltipla escolha')
 
-            expect(response.fields[2].title).to.eq('{{field:01GV8WY0Z6YGD6DMRHZFEC6RXJ}} em? Isso é devido a popularidade de qual desses heróis?', 'Pergunta')
+            expect(response.fields[2].title).to.eq('{{field:01GVBPFZGA3J2QPE6JYWF18B7G}} em? Isso é devido a popularidade de qual desses heróis? Zuera SQN =]', 'Pergunta')
             expect(response.fields[2].properties.choices[0].label).to.eq('Batman', 'Opção')
             expect(response.fields[2].properties.choices[1].label).to.eq('Superman', 'Opção')
             expect(response.fields[2].properties.choices[2].label).to.eq('Flash', 'Opção')

@@ -4,7 +4,7 @@ pipeline{
 
         parameters{
 
-            string(name: "SPEC", defaultValue: "cypress/e2e/**/**", description: "Location where the spec file(s) are in project")
+            string(name: "SPEC", defaultValue: "cypress/e2e/services/**", description: "Location where the spec file(s) are in project")
             choice(name: "BROWSER", choices: ['chrome', 'edge', 'firefox'], description: "Pick a browser to run the test spec")
 
                             }
@@ -21,7 +21,7 @@ pipeline{
                 steps{
 
                     echo('Building application')
-                    bat "npm install"
+                    bash "npm install"
 
                         }
 
@@ -29,8 +29,8 @@ pipeline{
             stage('Testing'){
 
                 steps{
-                    bat 'rm -rf cypress/results/'
-                    bat "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
+                    bash 'rm -rf cypress/results/'
+                    bash "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
                         }
                                         }
             stage('Deploy'){

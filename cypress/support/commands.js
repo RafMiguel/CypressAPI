@@ -52,5 +52,5 @@ cy.fixture('typeform/check_tokens.txt').should('exist').then((result) =>{
         })
     }
 })        
-   
+   cy.wait(2000)
 })
