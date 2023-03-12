@@ -1,0 +1,5 @@
+cypress/fixtures/access_token.txt
+cypress/fixtures/login.json
+cypress/fixtures/my_user.json
+
+node_modules
