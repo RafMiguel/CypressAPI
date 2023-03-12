@@ -4,8 +4,8 @@ const allureWriter = require('@shelex/cypress-allure-plugin/writer');
 module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
-    reportDir: 'cypress/results/reporter',
-    reportFilename: "[name]_[status]",
+    reportDir: 'cypress/results/report',
+    reportFilename: "report_[status]",
     overwrite: true,
     charts: true,
     reportPageTitle: 'API Testing',
