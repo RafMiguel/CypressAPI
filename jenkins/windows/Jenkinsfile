@@ -21,7 +21,7 @@ pipeline{
                 steps{
 
                     echo('Building application')
-                    bash "npm install"
+                    bat "npm install"
 
                         }
 
@@ -29,8 +29,8 @@ pipeline{
             stage('Testing'){
 
                 steps{
-                    bash 'rm -rf cypress/results/'
-                    bash "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
+                    bat 'rm -rf cypress/results/'
+                    bat "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
                         }
                                         }
             stage('Deploy'){
