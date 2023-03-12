@@ -1,0 +1,53 @@
+pipeline{
+
+    agent any
+
+        parameters{
+
+            string(name: "SPEC", defaultValue: "cypress/e2e/**/**", description: "Location where the spec file(s) are in project")
+            choice(name: "BROWSER", choices: ['chrome', 'edge', 'firefox'], description: "Pick a browser to run the test spec")
+
+                            }
+
+        options{
+
+            ansiColor('xterm')
+
+                        }
+
+        stages{
+            stage('Build'){
+
+                steps{
+
+                    echo('Building application')
+                    bat "npm install"
+
+                        }
+
+                                 }
+            stage('Testing'){
+
+                steps{
+                    bat 'rm -rf cypress/results/'
+                    bat "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
+                        }
+                                        }
+            stage('Deploy'){
+
+                steps{
+
+                    echo "Deploying application"
+                        }
+
+                                     }
+                    }
+
+        post{
+            always{
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'cypress/results/report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+              }    
+    
+
+}
