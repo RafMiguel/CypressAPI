@@ -1,5 +1,8 @@
 cypress/fixtures/typeform/access_token.txt
+cypress/fixtures/typeform/check_tokens.txt
 cypress/fixtures/typeform/login.json
 cypress/fixtures/typeform/my_user.json
+
+cypress/results
 
 node_modules

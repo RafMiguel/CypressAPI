@@ -2,6 +2,7 @@
 import './commands'
 import 'cypress-plugin-api'
 import 'cypress-xpath'
+import 'cypress-mochawesome-reporter/register';
 
 //Remove xhr requests from log
 const app = window.top;

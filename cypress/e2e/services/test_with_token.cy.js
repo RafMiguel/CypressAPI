@@ -4,15 +4,17 @@ import * as GETuser from '../../support/requests/typeform/getUser'
 Cypress.config('baseUrl', 'https://api.typeform.com')
 
 describe('Teste básico de authorization com bearer token', () => {
+    const token_path = "typeform/access_token.txt"
+    const user_json_path = "typeform/my_user.json"
    
-    before(() => {
+    it('Gerar e armazenar o token de acesso',() => {
 
-        cy.armazenarToken() //Descomentar para gerar um novo token automaticamente
+        cy.armazenarToken() //Descomentar para gerar um novo token automaticamente, e comentar caso já tenha sido gerado um token manualmente
     });
 
     
-    it('Acessar API da Typeform (direto da spec)', () => {
-        cy.fixture('typeform/access_token.txt').then((access_token) =>{
+    it('Acessar API da Typeform e validar o header (direto da spec)', () => {
+        cy.fixture(token_path).then((access_token) =>{
             cy.api({
                 method: 'GET',
                 url: '/me',
@@ -30,7 +32,7 @@ describe('Teste básico de authorization com bearer token', () => {
 
     });
 
-    it('Acessar API da Typeform (via pageObject)', () => {
+    it('Acessar API da Typeform e validar o header (via pageObject)', () => {
         
         GETuser.my_user('me').then((response) =>{
             expect(response.status).to.eq(200, 'statusCode')
@@ -47,23 +49,25 @@ describe('Teste básico de authorization com bearer token', () => {
             expect(response.body.alias).to.eq('Rafael Miguel', 'Nome e sobrenome')
             expect(response.body.email).to.eq('rafaelmiguel11@hotmail.com', 'Email')
             expect(response.body.language).to.eq('en', 'Idioma')
-            expect(response.body.tracking_id).to.eq(23472226, 'trackingID')
-            expect(response.body.user_id).to.eq('01GV8WV2CT9QMFKJPSV7G0MXXX', 'userId')
+            expect(response.body.user_id).to.eq('01GV8WV2CT9QMFKJPSV7G0MXXX', 'ID do usuário')
+            expect(response.body.tracking_id).to.eq(23472226, 'Tracking do usuário')
+            
         })
     });
 
     it('Validar body  do response de user (utilizando fixture)', () => {
 
             GETuser.my_user('me').its('body').then((body) =>{
-                cy.writeFile('cypress/fixtures/typeform/my_user.json', body)
+                cy.writeFile(user_json_path, body)
 
-                GETuser.my_user('me').then((response) =>{
+                GETuser.my_user('me').its('body').then((response) =>{
                     console.log(response)
-                    cy.fixture('typeform/my_user.json').then((body) =>{
-                        expect(response.body.alias).to.eq(body.alias)
-                        expect(response.body.email).to.eq(body.email)
-                        expect(response.body.user_id).to.eq(body.user_id)
-                        expect(response.body.tracking_id).to.eq(body.tracking_id)
+                    cy.fixture(user_json_path).then((body) =>{
+                        expect(response.alias).to.eq(body.alias, 'Nome e sobrenome')
+                        expect(response.email).to.eq(body.email, 'Email')
+                        expect(response.language).to.eq(body.language, 'Idioma')
+                        expect(response.user_id).to.eq(body.user_id, 'ID do usuário')
+                        expect(response.tracking_id).to.eq(body.tracking_id, 'Tracking do usuário')
                     })
                     
                 })
@@ -71,13 +75,12 @@ describe('Teste básico de authorization com bearer token', () => {
 
         })
 
-    it.only('Acessar formulario', () => {
+    it('Acessar formulario', () => {
         GETuser.my_user('forms/MaY9BGOu').then((response) =>{
             expect(response.status).to.eq(200, 'statusCode')
         })
         
         GETuser.my_user('forms/MaY9BGOu').its('body').then((response) =>{
-           // expect(response.status).to.eq(200, 'statusCode')
 
             expect(response).to.not.be.empty
             expect(response.title).to.eq('Test', 'Título')
